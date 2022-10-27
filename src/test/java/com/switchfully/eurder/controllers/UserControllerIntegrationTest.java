@@ -1,7 +1,10 @@
 package com.switchfully.eurder.controllers;
 
+import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.domain.dto.userdto.UserDto;
+import com.switchfully.eurder.domain.dto.userdto.UserMapper;
 import com.switchfully.eurder.repositories.UserRepository;
+import com.switchfully.eurder.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +23,25 @@ class UserControllerIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
+
+
+
     @Test
-    void addNewMember_HappyPath() {
+    void addNewCustomerAsUnregisteredUser_HappyPath() {
         //given
         UserDto userDto = new UserDto("Tom", "Jansens", "tomjansens@hotmail.com", "Somewhere under the rainbow", "02456789120");
+        User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailAddress(), userDto.getAddress(), userDto.getPhoneNumber());
 
         //when
-        UserDto returnedUserDto = userController.createUser(userDto);
+        userController.createUser(userDto);
 
         //then
-        Assertions.assertTrue(userRepository.getUserDatabase().containsKey("02456789120"));
-
+        Assertions.assertTrue(userService.getUserRepository().getUserDatabase().get("02456789120").equals(user));
     }
+
 
 
 }

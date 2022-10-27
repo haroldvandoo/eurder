@@ -1,6 +1,7 @@
 package com.switchfully.eurder.controllers;
 
 import com.switchfully.eurder.domain.dto.userdto.UserDto;
+import com.switchfully.eurder.domain.dto.userdto.UserMapper;
 import com.switchfully.eurder.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,11 @@ public class UserController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     UserService userService;
+    UserMapper userMapper;
 
     public UserController(UserService userService) {
         this.userService = userService;
+        this.userMapper = new UserMapper();
     }
 
     @ResponseStatus(HttpStatus.CREATED)

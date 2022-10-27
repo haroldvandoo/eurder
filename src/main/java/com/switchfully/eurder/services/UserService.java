@@ -23,4 +23,8 @@ public class UserService {
         userRepository.save(newUser);
         return userDto;
     }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
 }
