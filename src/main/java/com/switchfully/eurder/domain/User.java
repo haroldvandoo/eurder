@@ -1,5 +1,8 @@
 package com.switchfully.eurder.domain;
 
+import com.switchfully.eurder.security.Feature;
+import com.switchfully.eurder.security.Role;
+
 public class User {
 
     private Role role;
@@ -9,13 +12,16 @@ public class User {
     private String address;
     private String phoneNumber;
 
-    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber) {
+    private String password;
+
+    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber, String password) {
         this.role = Role.CUSTOMER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
 
@@ -41,6 +47,14 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -80,5 +94,13 @@ public class User {
         result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
         result = 31 * result + (getPhoneNumber() != null ? getPhoneNumber().hashCode() : 0);
         return result;
+    }
+
+    public boolean doesPasswordMatch(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean canHaveAccessTo(Feature feature) {
+        return role.containsFeature(feature);
     }
 }

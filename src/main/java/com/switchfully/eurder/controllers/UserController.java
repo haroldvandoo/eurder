@@ -1,6 +1,7 @@
 package com.switchfully.eurder.controllers;
 
-import com.switchfully.eurder.domain.dto.userdto.UserDto;
+import com.switchfully.eurder.domain.dto.userdto.UserDtoPrivate;
+import com.switchfully.eurder.domain.dto.userdto.UserDtoPublic;
 import com.switchfully.eurder.domain.dto.userdto.UserMapper;
 import com.switchfully.eurder.services.UserService;
 import org.slf4j.Logger;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/user")
 public class UserController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -25,8 +26,8 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDto createUser(@RequestBody UserDto userDto) {
-        log.info("created the following user: " + userDto);
-        return userService.addUser(userDto);
+    public UserDtoPublic createUser(@RequestBody UserDtoPrivate userDtoPrivate) {
+        log.info("created the following user: " + userDtoPrivate);
+        return userService.addUser(userDtoPrivate);
     }
 }

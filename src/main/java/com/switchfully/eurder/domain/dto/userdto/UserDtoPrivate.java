@@ -1,8 +1,8 @@
 package com.switchfully.eurder.domain.dto.userdto;
 
-import com.switchfully.eurder.domain.Role;
+import com.switchfully.eurder.security.Role;
 
-public class UserDto {
+public class UserDtoPrivate {
 
     private Role role;
     private String firstName;
@@ -10,17 +10,17 @@ public class UserDto {
     private String emailAddress;
     private String address;
     private String phoneNumber;
+    private String password;
 
-    public UserDto(String firstName, String lastName, String emailAddress, String address, String phoneNumber) {
-        this.role = Role.CUSTOMER;
+    public UserDtoPrivate(Role role, String firstName, String lastName, String emailAddress, String address, String phoneNumber, String password) {
+        this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
-
-
 
     public String getFirstName() {
         return firstName;
@@ -42,21 +42,29 @@ public class UserDto {
         return phoneNumber;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserDto userDto)) return false;
+        if (!(o instanceof UserDtoPrivate userDtoPrivate)) return false;
 
-        if (role != userDto.role) return false;
-        if (getFirstName() != null ? !getFirstName().equals(userDto.getFirstName()) : userDto.getFirstName() != null)
+        if (role != userDtoPrivate.role) return false;
+        if (getFirstName() != null ? !getFirstName().equals(userDtoPrivate.getFirstName()) : userDtoPrivate.getFirstName() != null)
             return false;
-        if (getLastName() != null ? !getLastName().equals(userDto.getLastName()) : userDto.getLastName() != null)
+        if (getLastName() != null ? !getLastName().equals(userDtoPrivate.getLastName()) : userDtoPrivate.getLastName() != null)
             return false;
-        if (getEmailAddress() != null ? !getEmailAddress().equals(userDto.getEmailAddress()) : userDto.getEmailAddress() != null)
+        if (getEmailAddress() != null ? !getEmailAddress().equals(userDtoPrivate.getEmailAddress()) : userDtoPrivate.getEmailAddress() != null)
             return false;
-        if (getAddress() != null ? !getAddress().equals(userDto.getAddress()) : userDto.getAddress() != null)
+        if (getAddress() != null ? !getAddress().equals(userDtoPrivate.getAddress()) : userDtoPrivate.getAddress() != null)
             return false;
-        return getPhoneNumber() != null ? getPhoneNumber().equals(userDto.getPhoneNumber()) : userDto.getPhoneNumber() == null;
+        return getPhoneNumber() != null ? getPhoneNumber().equals(userDtoPrivate.getPhoneNumber()) : userDtoPrivate.getPhoneNumber() == null;
     }
 
     @Override
