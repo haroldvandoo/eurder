@@ -1,13 +1,11 @@
 package com.switchfully.eurder.domain.dto.ItemGroupDto;
 
-import com.switchfully.eurder.domain.Item;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
-import com.switchfully.eurder.repositories.ItemRepository;
 
 import java.time.LocalDate;
 
 public class ItemGroupDto {
-    private String id;
+    private Long id;
     private int amount;
     private LocalDate shippingDate = LocalDate.now();
     private double price;
@@ -30,7 +28,7 @@ public class ItemGroupDto {
         this.price = calculatePrice(itemDto);
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

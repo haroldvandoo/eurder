@@ -1,9 +1,10 @@
 package com.switchfully.eurder.services;
 
 import com.switchfully.eurder.domain.Item;
-import com.switchfully.eurder.repositories.ItemRepository;
+import com.switchfully.eurder.domain.dto.itemdto.CreateItemDto;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
 import com.switchfully.eurder.domain.dto.itemdto.ItemMapper;
+import com.switchfully.eurder.repositories.ItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,18 +19,18 @@ public class ItemService {
         this.itemMapper = new ItemMapper();
     }
 
-    public ItemDto addItem(ItemDto itemDto) {
-        Item newItem = itemMapper.itemDtoToItem(itemDto);
-        checkNameAndDescriptionFields(itemDto);
+    public ItemDto addItem(CreateItemDto createItemDto) {
+        Item newItem = itemMapper.createItemDtoToItem(createItemDto);
+        checkNameAndDescriptionFields(createItemDto);
         itemRepository.save(newItem);
-        return itemDto;
+        return itemMapper.itemToItemDto(newItem);
     }
 
-    private void checkNameAndDescriptionFields(ItemDto itemDto) {
-        if (itemDto.getName() == null || itemDto.getName().equals("")) {
+    private void checkNameAndDescriptionFields(CreateItemDto createItemDto) {
+        if (createItemDto.getName() == null || createItemDto.getName().equals("")) {
             throw new IllegalArgumentException("Provide a Name please!");
         }
-        if (itemDto.getDescription() == null || itemDto.getDescription().equals("")) {
+        if (createItemDto.getDescription() == null || createItemDto.getDescription().equals("")) {
             throw new IllegalArgumentException("Provide a description please!");
         }
     }
@@ -38,23 +39,17 @@ public class ItemService {
         return itemRepository;
     }
 
-    public LocalDate calculateShippingDate(String itemId, int amount) {
-        Item item = itemRepository.getItemDatabase().get(itemId);
+    public LocalDate calculateShippingDate(Long itemId, int amount) {
+        Item item = itemRepository.getReferenceById(itemId);
         if (item.getAmount() - amount < 0) {
             return LocalDate.now().plusDays(7);
         }
         return LocalDate.now().plusDays(1);
     }
 
-    public double calculatePrice(String itemId, int amount){
-        Item item = itemRepository.getItemDatabase().get(itemId);
+    public double calculatePrice(Long itemId, int amount){
+        Item item = itemRepository.getReferenceById(itemId);
         return item.getPrice() * amount;
     }
-
-    /**
-    public static void main(String[] args) {
-        new ItemService(new ItemRepository());
-    }
-     */
 }
 

@@ -2,15 +2,11 @@ package com.switchfully.eurder.controllers;
 
 import com.switchfully.eurder.domain.Item;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
-import com.switchfully.eurder.repositories.ItemRepository;
 import com.switchfully.eurder.services.ItemService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

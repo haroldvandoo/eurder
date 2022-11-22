@@ -1,5 +1,6 @@
 package com.switchfully.eurder.controllers;
 
+import com.switchfully.eurder.domain.dto.itemdto.CreateItemDto;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
 import com.switchfully.eurder.services.ItemService;
 import org.slf4j.Logger;
@@ -24,10 +25,12 @@ public class ItemController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ItemDto addItemToTheDatabase(@RequestHeader String authorization, @RequestBody ItemDto itemDto) {
-        log.info("created the following item: " + itemDto);
+    public ItemDto addItemToTheDatabase(
+            //@RequestHeader String authorization,
+            @RequestBody CreateItemDto createItemDto) {
+        log.info("created the following item: " + createItemDto);
         //securityService.validateAuthorization(authorization, Feature.CREATE_ITEM);
-        return itemService.addItem(itemDto);
+        return itemService.addItem(createItemDto);
     }
 
 }

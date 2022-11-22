@@ -1,25 +1,26 @@
 package com.switchfully.eurder.domain;
 
-import com.switchfully.eurder.exceptions.all.IdAlreadyUsedException;
-import com.switchfully.eurder.repositories.ItemRepository;
-import com.switchfully.eurder.services.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(name = "item")
 public class Item {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq")
+    @SequenceGenerator(name = "item_seq", sequenceName = "item_seq", allocationSize = 1)
+    private Long id;
     private String name;
     private String description;
     private double price;
     private int amount;
-    //private ItemRepository itemRepository;
 
 
+    public Item() {
+    }
 
     public Item(String name, String description, double price, int amount) {
-        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -44,7 +45,7 @@ public class Item {
     }
      */
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -64,7 +65,7 @@ public class Item {
         return amount;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
