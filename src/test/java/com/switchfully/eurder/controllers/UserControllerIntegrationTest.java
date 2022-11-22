@@ -1,12 +1,7 @@
 package com.switchfully.eurder.controllers;
 
-import com.switchfully.eurder.domain.User;
-import com.switchfully.eurder.domain.dto.userdto.UserDtoPrivate;
 import com.switchfully.eurder.repositories.UserRepository;
-import com.switchfully.eurder.security.Role;
 import com.switchfully.eurder.services.UserService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -28,7 +23,7 @@ class UserControllerIntegrationTest {
 
 
 
-
+/**
     @Test
     void addNewCustomerAsUnregisteredUser_HappyPath() {
         //given
@@ -39,9 +34,6 @@ class UserControllerIntegrationTest {
         //then
         Assertions.assertTrue(userService.getUserRepository().getUserDatabase().get("02456789129").equals(user));
     }
-
-
-
-
+    */
 
 }

@@ -48,4 +48,29 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         response.sendError(HttpStatus.FORBIDDEN.value(), "This ID is not registered");
     }
 
+    @ExceptionHandler(EmptyEmailException.class)
+    protected void EmptyEmailException(EmptyEmailException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(), "Please provide an email.");
+    }
+
+    @ExceptionHandler(EmptyFirstNameException.class)
+    protected void EmptyFirstNameException(EmptyFirstNameException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(), "Please provide a first name.");
+    }
+
+    @ExceptionHandler(EmptyLastNameException.class)
+    protected void EmptyLastNameException(EmptyLastNameException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(), "Please provide a last name.");
+    }
+
+    @ExceptionHandler(EmptyPhoneException.class)
+    protected void EmptyPhoneException(EmptyPhoneException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(),     "Provide a phone number please!");
+    }
+
+    @ExceptionHandler(EmptyAddressException.class)
+    protected void EmptyAddressException(EmptyAddressException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(),     "Provide an address please!");
+    }
+
 }

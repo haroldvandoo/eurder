@@ -1,8 +1,6 @@
 package com.switchfully.eurder.domain.dto.ItemGroupDto;
 
 import com.switchfully.eurder.domain.ItemGroup;
-import com.switchfully.eurder.domain.User;
-import com.switchfully.eurder.domain.dto.userdto.UserDtoPrivate;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -2,21 +2,36 @@ package com.switchfully.eurder.domain.dto.userdto;
 
 import com.switchfully.eurder.domain.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UserMapper {
 
     public UserMapper() {
     }
 
-    public User userDtoPrivateToUser(UserDtoPrivate userDtoPrivate) {
-        return new User(userDtoPrivate.getFirstName(), userDtoPrivate.getLastName(), userDtoPrivate.getEmailAddress(), userDtoPrivate.getAddress(), userDtoPrivate.getPhoneNumber(),userDtoPrivate.getPassword());
+    public User userDtoToUser(UserDto userDto) {
+        return new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailAddress(), userDto.getAddress(), userDto.getPhoneNumber()
+                //,userDtoPrivate.getPassword()
+        );
     }
 
-    public UserDtoPrivate userToUserDtoPrivate(User user) {
-        return new UserDtoPrivate(user.getRole(),user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getAddress(), user.getPhoneNumber(), user.getPassword());
+    public UserDto userToUserDto(User user) {
+        return new UserDto(user.getId(),user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getAddress(), user.getPhoneNumber(), user.getRole()
+                //, user.getPassword()
+        );
     }
 
-    public UserDtoPublic userToUserDtoPublic(User user) {
-        return new UserDtoPublic(user.getRole(),user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getAddress(), user.getPhoneNumber());
+    public User createUserDtoToUser(CreateUserDto createUserDto) {
+        return new User(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getEmailAddress(), createUserDto.getAddress(), createUserDto.getPhoneNumber());
+    }
+
+    public CreateUserDto userToCreateUserDto(User user) {
+        return new CreateUserDto(user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getAddress(), user.getPhoneNumber(), user.getRole());
+    }
+
+    public List<CreateUserDto> userToUserDtoPublicList (List<User> userList) {
+        return userList.stream().map(user -> userToCreateUserDto(user)).collect(Collectors.toList());
     }
 
 

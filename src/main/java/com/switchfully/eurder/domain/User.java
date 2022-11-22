@@ -3,27 +3,54 @@ package com.switchfully.eurder.domain;
 import com.switchfully.eurder.security.Feature;
 import com.switchfully.eurder.security.Role;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "eurder_user")
 public class User {
 
-    private Role role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "firstname")
     private String firstName;
+    @Column(name = "lastname")
     private String lastName;
+
+    @Column(name = "email")
     private String emailAddress;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "phone")
     private String phoneNumber;
 
-    private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_type")
+    private Role role;
 
-    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber, String password) {
+    //todo check security
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber) {
         this.role = Role.CUSTOMER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.password = password;
+
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public Role getRole() {
         return role;
@@ -49,56 +76,28 @@ public class User {
         return phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
+
 
     public void setRole(Role role) {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "role=" + role +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
+        if (!(o instanceof User)) return false;
 
-        if (getRole() != user.getRole()) return false;
-        if (getFirstName() != null ? !getFirstName().equals(user.getFirstName()) : user.getFirstName() != null)
-            return false;
-        if (getLastName() != null ? !getLastName().equals(user.getLastName()) : user.getLastName() != null)
-            return false;
-        if (getEmailAddress() != null ? !getEmailAddress().equals(user.getEmailAddress()) : user.getEmailAddress() != null)
-            return false;
-        if (getAddress() != null ? !getAddress().equals(user.getAddress()) : user.getAddress() != null) return false;
-        return getPhoneNumber() != null ? getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() == null;
+        User user = (User) o;
+
+        return Objects.equals(id, user.id);
     }
 
-    @Override
-    public int hashCode() {
-        int result = getRole() != null ? getRole().hashCode() : 0;
-        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
-        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
-        result = 31 * result + (getEmailAddress() != null ? getEmailAddress().hashCode() : 0);
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-        result = 31 * result + (getPhoneNumber() != null ? getPhoneNumber().hashCode() : 0);
-        return result;
-    }
-
-    public boolean doesPasswordMatch(String password) {
+/**
+   public boolean doesPasswordMatch(String password) {
         return this.password.equals(password);
     }
+ */
 
     public boolean canHaveAccessTo(Feature feature) {
         return role.containsFeature(feature);

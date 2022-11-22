@@ -9,7 +9,7 @@ import static com.switchfully.eurder.security.Feature.*;
 
 public enum Role {
     CUSTOMER(newArrayList(CREATE_ORDER)),
-    ADMIN(newArrayList(CREATE_ITEM, CREATE_ORDER))
+    ADMIN(newArrayList(CREATE_ITEM, CREATE_ORDER, GET_ALLCUSTOMERS, GET_SINGLECUSTOMER))
     ;
 
     private List<Feature> featureList;

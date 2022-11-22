@@ -3,7 +3,6 @@ package com.switchfully.eurder.services;
 import com.switchfully.eurder.domain.Order;
 import com.switchfully.eurder.domain.dto.orderdto.OrderDto;
 import com.switchfully.eurder.domain.dto.orderdto.OrderMapper;
-import com.switchfully.eurder.exceptions.all.NonExistingUserException;
 import com.switchfully.eurder.repositories.OrderRepository;
 import com.switchfully.eurder.repositories.UserRepository;
 import org.springframework.stereotype.Service;
