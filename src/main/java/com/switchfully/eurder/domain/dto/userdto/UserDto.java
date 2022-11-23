@@ -14,7 +14,7 @@ public class UserDto {
     private String phoneNumber;
 
     private Role role;
-    //private String password;
+
 
 
     public UserDto(Long id, String firstName, String lastName, String emailAddress, String address, String phoneNumber, Role role) {
@@ -25,6 +25,7 @@ public class UserDto {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+
     }
 
     public Long getId() {
@@ -54,6 +55,7 @@ public class UserDto {
     public Role getRole() {
         return role;
     }
+
 
     /**
     public String getPassword() {

@@ -1,14 +1,10 @@
 package com.switchfully.eurder.controllers;
 
-import com.switchfully.eurder.domain.Item;
-import com.switchfully.eurder.domain.ItemGroup;
 import com.switchfully.eurder.domain.Order;
 import com.switchfully.eurder.domain.dto.ItemGroupDto.ItemGroupDto;
 import com.switchfully.eurder.domain.dto.ItemGroupDto.ItemGroupMapper;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
 import com.switchfully.eurder.domain.dto.orderdto.OrderDto;
-import com.switchfully.eurder.domain.dto.orderdto.OrderMapper;
-import com.switchfully.eurder.services.ItemService;
 import com.switchfully.eurder.services.OrderService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

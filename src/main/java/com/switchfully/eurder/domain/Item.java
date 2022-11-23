@@ -1,7 +1,6 @@
 package com.switchfully.eurder.domain;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "item")
@@ -69,6 +68,9 @@ public class Item {
         this.id = id;
     }
 
+    public void substractAmount(int orderedAmount) {
+        this.amount -= orderedAmount;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -7,8 +7,10 @@ import java.time.LocalDate;
 public class ItemGroupDto {
     private Long id;
     private int amount;
-    private LocalDate shippingDate = LocalDate.now();
+    private LocalDate shippingDate;
     private double price;
+
+    private Long orderId;
 
     public LocalDate calculateShippingDate(ItemDto itemDto) {
         if (itemDto.getAmount() - amount < 0) {

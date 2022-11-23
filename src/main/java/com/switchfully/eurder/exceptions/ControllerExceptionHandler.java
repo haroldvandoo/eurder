@@ -73,4 +73,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         response.sendError(HttpStatus.FORBIDDEN.value(),     "Provide an address please!");
     }
 
+    @ExceptionHandler(NonExistingItemIdException.class)
+    protected void NonExistingItemIdException(NonExistingItemIdException ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(),     "Could not find this Item id");
+    }
+
 }

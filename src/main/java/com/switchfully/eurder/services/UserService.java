@@ -41,13 +41,13 @@ public class UserService {
         return userRepository;
     }
 
-    public List<CreateUserDto> getAllCustomers() {
+    public List<UserDto> getAllCustomers() {
         List<User> userList = userRepository.findAll();
         List<User> memberList = userList.stream().filter(user -> user.getRole().equals(Role.CUSTOMER)).collect(Collectors.toList());
-        return userMapper.userToUserDtoPublicList(memberList);
+        return userMapper.userToUserDtoList(memberList);
     }
 
-    public CreateUserDto getUserById(Long id) {
-        return userMapper.userToCreateUserDto(userRepository.findById(id).orElseThrow(NonExistingUserException::new));
+    public UserDto getUserById(Long id) {
+        return userMapper.userToUserDto(userRepository.findById(id).orElseThrow(NonExistingUserException::new));
     }
 }

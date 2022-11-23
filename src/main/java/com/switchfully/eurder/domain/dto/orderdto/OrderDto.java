@@ -2,30 +2,28 @@ package com.switchfully.eurder.domain.dto.orderdto;
 
 import com.switchfully.eurder.domain.dto.ItemGroupDto.ItemGroupDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public class OrderDto {
-    private String id;
-    private List<ItemGroupDto> itemGroupDtoList;
+    private Long id;
 
-    private String phoneNumber;
+    private Double price;
 
-    public String getId() {
+    private Long customerId;
+
+    public Long getId() {
         return id;
     }
 
-    public List<ItemGroupDto> getItemGroupDtoList() {
-        return itemGroupDtoList;
+    public Double getPrice() {
+        return price;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public OrderDto(List<ItemGroupDto> itemGroupDtoList, String phoneNumber) {
-        this.id = UUID.randomUUID().toString();
-        this.itemGroupDtoList = itemGroupDtoList;
-        this.phoneNumber = phoneNumber;
+    public OrderDto(Long id, Double price, Long customerId) {
+        this.id = id;
+        this.price = price;
+        this.customerId = customerId;
     }
 }

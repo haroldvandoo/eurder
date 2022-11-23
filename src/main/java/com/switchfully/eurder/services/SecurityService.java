@@ -4,6 +4,7 @@ import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.exceptions.all.AccessDeniedException;
 import com.switchfully.eurder.exceptions.all.UnkownUserException;
 import com.switchfully.eurder.exceptions.all.WrongPasswordException;
+import com.switchfully.eurder.repositories.UserRepository;
 import com.switchfully.eurder.security.Feature;
 import com.switchfully.eurder.security.UsernamePassword;
 import org.slf4j.Logger;
@@ -11,25 +12,36 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
-/**
+
 @Service
 public class SecurityService {
 
     private final Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
-    private UserRepositoryOld userRepositoryOld;
+    private UserRepository userRepository;
 
-    public SecurityService(UserRepositoryOld userRepositoryOld) {
-        this.userRepositoryOld = userRepositoryOld;
+
+    public SecurityService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void validateAuthorization(String authorization, Feature feature) {
         UsernamePassword usernamePassword = getUsernamePassword(authorization);
-        User user = userRepositoryOld.getUserDatabase().get(usernamePassword.getUsername());
+        Long userId = Long.parseLong(usernamePassword.getUsername());
+        User user = userRepository.findById(userId).orElseThrow();
         if (user == null) {
             logger.error("Unkown user" + usernamePassword.getPassword());
             throw new UnkownUserException();
         }
+    }
+
+    public UsernamePassword getUsernamePassword(String authorization) {
+        String decodedUsernameAndPassword = new String(Base64.getDecoder().decode(authorization.substring("Basic ".length())));
+        String username = decodedUsernameAndPassword.substring(0, decodedUsernameAndPassword.indexOf(":"));
+        String password = decodedUsernameAndPassword.substring(decodedUsernameAndPassword.indexOf(":") + 1);
+        return new UsernamePassword(username, password);
+    }
+}
         /**
         if (!user.doesPasswordMatch(usernamePassword.getPassword())) {
             logger.error("Password does not match for user " + usernamePassword.getUsername());
@@ -42,11 +54,6 @@ public class SecurityService {
         }
     }
 
-    private UsernamePassword getUsernamePassword(String authorization) {
-        String decodedUsernameAndPassword = new String(Base64.getDecoder().decode(authorization.substring("Basic ".length())));
-        String username = decodedUsernameAndPassword.substring(0, decodedUsernameAndPassword.indexOf(":"));
-        String password = decodedUsernameAndPassword.substring(decodedUsernameAndPassword.indexOf(":") + 1);
-        return new UsernamePassword(username, password);
-    }
+
 }
  */

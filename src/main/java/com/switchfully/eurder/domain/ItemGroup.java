@@ -1,40 +1,48 @@
 package com.switchfully.eurder.domain;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-
+@Entity
+@Table(name = "item_group")
 public class ItemGroup {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "itemgroup_seq")
+    @SequenceGenerator(name = "itemgroup_seq", sequenceName = "itemgroup_seq", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "fk_item_id")
     private Long itemId;
+    @Column(name = "amount")
     private int amount;
-    private LocalDate shippingDate = LocalDate.now();
+    @Column(name = "shipping_date")
+    private LocalDate shippingDate;
+    @Column(name = "price")
     private double price;
+    //@OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "fk_order_id")
+    private Long orderId;
 
 
-    public ItemGroup(Item item, int amount) {
-        this.itemId = item.getId();
-        this.amount = amount;
-        this.shippingDate = calculateShippingDate(item);
-        this.price = calculatePrice(item);
+
+    public ItemGroup() {
     }
 
-    public ItemGroup(Long itemId, int amount, LocalDate shippingDate, double price) {
+    public ItemGroup(Long itemId, int amount) {
         this.itemId = itemId;
         this.amount = amount;
+    }
+
+    public void setShippingDate(LocalDate shippingDate) {
         this.shippingDate = shippingDate;
+    }
+
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public LocalDate calculateShippingDate(Item item) {
-        if (item.getAmount() - amount < 0) {
-           return shippingDate.plusDays(7);
-        }
-        return shippingDate.plusDays(1);
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
-
-
-    public double calculatePrice(Item item){
-        return item.getPrice() * amount;
-    }
-
-
 }

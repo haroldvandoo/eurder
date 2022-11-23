@@ -1,59 +1,50 @@
 package com.switchfully.eurder.domain;
 
-import com.switchfully.eurder.exceptions.all.IdAlreadyUsedException;
-import com.switchfully.eurder.repositories.OrderRepository;
+import com.switchfully.eurder.repositories.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
+@Entity
+@Table(name = "orders")
 public class Order {
-    private String id;
-    private List<ItemGroup> itemGroupList;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
+    @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
+    private Long id;
 
-    private String phoneNumber;
+    @Column(name = "price")
+    private Double price;
+
+    //@ManyToOne
+    @Column(name = "customer_id")
+    private Long customerId;
 
 
-    public Order(List<ItemGroup> itemGroupList, String phoneNumber) {
-        this.id = UUID.randomUUID().toString();
-        this.itemGroupList = itemGroupList;
-        this.phoneNumber = phoneNumber;
+    public Order() {
     }
 
-    public Order(String id, List<ItemGroup> itemGroupList, String phoneNumber) {
-        this.id = id;
-        this.itemGroupList = itemGroupList;
-        this.phoneNumber = phoneNumber;
+    public Order( Long customerId, double price) {
+        this.customerId = customerId;
+        this.price = price;
     }
 
-    /**
-
-    public Order(String id, List<ItemGroup> itemGroupList, String phoneNumber) {
-        this.id = validateId(id);
-        this.itemGroupList = itemGroupList;
-        this.phoneNumber = phoneNumber;
-    }
-
-    private String validateId(String id) {
-        if (orderRepository.getOrderDatabase().get(id).getId().equals(id)) {
-            throw new IdAlreadyUsedException();
-        }
-        return id;
-    }
-     */
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public Double getPrice() {
+        return price;
+    }
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public List<ItemGroup> getItemGroupList() {
-        return itemGroupList;
-    }
+
 }

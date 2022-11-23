@@ -12,3 +12,15 @@ values (nextval('user_seq'), 'Joe', 'Biden', 'jbiden@whitehouse.com', 'Namur', '
 
 insert into eurder_user(id, firstname, lastname, email, address, phone, role_type)
 values (nextval('user_seq'), 'Richard', 'Nixon', 'rnixon@whitehouse.com', 'watergate', '0477123460', 'CUSTOMER');
+
+insert into item(id, name, description, price, amount)
+values (nextval('item_seq'), 'chair', 'ikea chair', 150.00, 50);
+
+insert into item(id, name, description, price, amount)
+values (nextval('item_seq'), 'table', 'ugly table', 10.00, 1000);
+
+insert into item(id, name, description, price, amount)
+values (nextval('item_seq'), 'sofa', 'nice sofa', 800.00, 3);
+
+insert into item(id, name, description, price, amount)
+values (nextval('item_seq'), 'coffee table', 'luxury coffee table', 20000.00, 5);

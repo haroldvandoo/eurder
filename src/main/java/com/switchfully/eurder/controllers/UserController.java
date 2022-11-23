@@ -38,7 +38,7 @@ public class UserController {
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CreateUserDto> getAllCustomers(){
+    public List<UserDto> getAllCustomers(){
         log.info("fetching all customers.");
         return userService.getAllCustomers();
     }
@@ -53,7 +53,7 @@ public class UserController {
      */
 
     @GetMapping (path= "/{phoneNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CreateUserDto getCustomerById(@RequestHeader String authorization, @PathVariable Long id) {
+    public UserDto getCustomerById(@RequestHeader String authorization, @PathVariable Long id) {
         log.info("retrieving user with id:" + id);
         //securityService.validateAuthorization(authorization, Feature.GET_SINGLECUSTOMER);
         return userService.getUserById(id);

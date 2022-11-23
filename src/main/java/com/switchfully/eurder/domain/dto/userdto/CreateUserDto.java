@@ -9,20 +9,18 @@ public class CreateUserDto {
     private String emailAddress;
     private String address;
     private String phoneNumber;
-    private Role role;
 
-    public CreateUserDto(String firstName, String lastName, String emailAddress, String address, String phoneNumber, Role role) {
+    private String password;
+
+    public CreateUserDto(String firstName, String lastName, String emailAddress, String address, String phoneNumber,  String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.role = role;
+        this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -44,27 +42,8 @@ public class CreateUserDto {
         return phoneNumber;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

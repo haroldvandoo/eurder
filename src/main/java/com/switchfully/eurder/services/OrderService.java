@@ -3,56 +3,44 @@ package com.switchfully.eurder.services;
 import com.switchfully.eurder.domain.Order;
 import com.switchfully.eurder.domain.dto.orderdto.OrderDto;
 import com.switchfully.eurder.domain.dto.orderdto.OrderMapper;
+import com.switchfully.eurder.exceptions.all.NonExistingUserException;
+import com.switchfully.eurder.repositories.ItemRepository;
 import com.switchfully.eurder.repositories.OrderRepository;
 import com.switchfully.eurder.repositories.UserRepository;
+import com.switchfully.eurder.security.Role;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.transaction.Transactional;
+
 
 @Service
+@Transactional
 public class OrderService {
 
     OrderRepository orderRepository;
     OrderMapper orderMapper;
-
     UserRepository userRepository;
+    ItemRepository itemRepository;
 
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository) {
+
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ItemRepository itemRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.orderMapper = new OrderMapper();
+        this.itemRepository = itemRepository;
     }
 
-    public OrderDto createOrder(OrderDto orderDto, String phoneNumber) {
-        Order order = orderMapper.orderDtoToOrder(orderDto);
-        /**
-        if (!userRepository.getUserDatabase().contains(phoneNumber)) {
-            throw new NonExistingUserException();
-        }*/
+    //todo need to add total price
+    public OrderDto createOrder(Long customerId, double totalPrice) {
+        validateCustomerId(customerId);
+        Order order = orderMapper.createOrderDtoToOrder(customerId, totalPrice);
         orderRepository.save(order);
-        return orderDto;
+        return orderMapper.orderToDto(order);
     }
 
-    public double calculatePriceOfOrder(OrderDto orderDto) {
-       List<Double> listOfPrices = orderDto.getItemGroupDtoList().stream().map(itemGroupDto -> itemGroupDto.getPrice()).collect(Collectors.toList());
-       return listOfPrices.stream().reduce(0.0, (a, b) -> a + b);
+    private void validateCustomerId(Long customerId) {
+        if (!userRepository.findById(customerId).orElseThrow().getRole().equals(Role.CUSTOMER)) {
+            throw new NonExistingUserException();
+        }
     }
-
-    public OrderRepository getOrderRepository() {
-        return orderRepository;
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    /**
-
-    public static void main(String[] args) {
-        OrderService orderService = new OrderService(new OrderRepository(), new UserRepository());
-    }
-     */
-
-
 }

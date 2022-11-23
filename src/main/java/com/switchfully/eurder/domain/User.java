@@ -33,19 +33,22 @@ public class User {
     @Column(name = "role_type")
     private Role role;
 
+    @Column(name = "password")
+    private String password;
+
     //todo check security
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber) {
+    public User(String firstName, String lastName, String emailAddress, String address, String phoneNumber, String password) {
         this.role = Role.CUSTOMER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
         this.phoneNumber = phoneNumber;
-
+        this.password = password;
     }
 
     public Long getId() {
@@ -76,7 +79,9 @@ public class User {
         return phoneNumber;
     }
 
-
+    public String getPassword() {
+        return password;
+    }
 
     public void setRole(Role role) {
         this.role = role;
