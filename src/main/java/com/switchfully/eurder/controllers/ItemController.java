@@ -2,6 +2,8 @@ package com.switchfully.eurder.controllers;
 
 import com.switchfully.eurder.domain.dto.itemdto.CreateItemDto;
 import com.switchfully.eurder.domain.dto.itemdto.ItemDto;
+import com.switchfully.eurder.security.Feature;
+import com.switchfully.eurder.security.SecurityService;
 import com.switchfully.eurder.services.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +18,18 @@ public class ItemController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     ItemService itemService;
-    //SecurityService securityService;
+    SecurityService securityService;
 
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, SecurityService securityService) {
         this.itemService = itemService;
-        //this.securityService = new SecurityService();
+        this.securityService = securityService;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ItemDto addItemToTheDatabase(
-            //@RequestHeader String authorization,
-            @RequestBody CreateItemDto createItemDto) {
+    public ItemDto addItemToTheDatabase(@RequestHeader String authorization, @RequestBody CreateItemDto createItemDto) {
         log.info("created the following item: " + createItemDto);
-        //securityService.validateAuthorization(authorization, Feature.CREATE_ITEM);
+        securityService.validateAuthorization(authorization, Feature.CREATE_ITEM);
         return itemService.addItem(createItemDto);
     }
 

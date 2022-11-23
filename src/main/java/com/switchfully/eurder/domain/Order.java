@@ -26,7 +26,11 @@ public class Order {
     public Order() {
     }
 
-    public Order( Long customerId, double price) {
+    public Order(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public Order(Long customerId, double price) {
         this.customerId = customerId;
         this.price = price;
     }

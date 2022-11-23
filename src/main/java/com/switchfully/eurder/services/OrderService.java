@@ -1,6 +1,7 @@
 package com.switchfully.eurder.services;
 
 import com.switchfully.eurder.domain.Order;
+import com.switchfully.eurder.domain.dto.ItemGroupDto.CreateItemGroupDto;
 import com.switchfully.eurder.domain.dto.orderdto.OrderDto;
 import com.switchfully.eurder.domain.dto.orderdto.OrderMapper;
 import com.switchfully.eurder.exceptions.all.NonExistingUserException;
@@ -11,6 +12,7 @@ import com.switchfully.eurder.security.Role;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
@@ -22,19 +24,31 @@ public class OrderService {
     UserRepository userRepository;
     ItemRepository itemRepository;
 
+    ItemGroupService itemGroupService;
 
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ItemRepository itemRepository) {
+
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ItemRepository itemRepository, ItemGroupService itemGroupService) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.orderMapper = new OrderMapper();
         this.itemRepository = itemRepository;
+        this.itemGroupService = itemGroupService;
     }
 
-    //todo need to add total price
     public OrderDto createOrder(Long customerId, double totalPrice) {
         validateCustomerId(customerId);
         Order order = orderMapper.createOrderDtoToOrder(customerId, totalPrice);
         orderRepository.save(order);
+        return orderMapper.orderToDto(order);
+    }
+
+    public OrderDto createOrder(Long customerId, List<CreateItemGroupDto> createItemGroupDtoList) {
+        validateCustomerId(customerId);
+        double totalPrice = itemGroupService.calculatePriceOfAllItems(createItemGroupDtoList);
+        Order order = orderMapper.createOrderDtoToOrder(customerId, totalPrice);
+        orderRepository.save(order);
+        long orderId = order.getId();
+        itemGroupService.createItemGroupList(createItemGroupDtoList, orderId);
         return orderMapper.orderToDto(order);
     }
 

@@ -12,6 +12,14 @@ public class ItemGroupDto {
 
     private Long orderId;
 
+    public ItemGroupDto(Long id, int amount, LocalDate shippingDate, double price, Long orderId) {
+        this.id = id;
+        this.amount = amount;
+        this.shippingDate = shippingDate;
+        this.price = price;
+        this.orderId = orderId;
+    }
+
     public LocalDate calculateShippingDate(ItemDto itemDto) {
         if (itemDto.getAmount() - amount < 0) {
             return LocalDate.now().plusDays(7);

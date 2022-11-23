@@ -12,6 +12,10 @@ public class ItemGroup {
     @SequenceGenerator(name = "itemgroup_seq", sequenceName = "itemgroup_seq", allocationSize = 1)
     private Long id;
 
+
+    //todo join column and onetomany?
+    @Column(name = "fk_order_id")
+    private Long orderId;
     @Column(name = "fk_item_id")
     private Long itemId;
     @Column(name = "amount")
@@ -20,9 +24,8 @@ public class ItemGroup {
     private LocalDate shippingDate;
     @Column(name = "price")
     private double price;
-    //@OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "fk_order_id")
-    private Long orderId;
+
+
 
 
 
@@ -44,5 +47,29 @@ public class ItemGroup {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public LocalDate getShippingDate() {
+        return shippingDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Long getOrderId() {
+        return orderId;
     }
 }

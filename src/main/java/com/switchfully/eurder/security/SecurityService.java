@@ -1,12 +1,10 @@
-package com.switchfully.eurder.services;
+package com.switchfully.eurder.security;
 
 import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.exceptions.all.AccessDeniedException;
 import com.switchfully.eurder.exceptions.all.UnkownUserException;
 import com.switchfully.eurder.exceptions.all.WrongPasswordException;
 import com.switchfully.eurder.repositories.UserRepository;
-import com.switchfully.eurder.security.Feature;
-import com.switchfully.eurder.security.UsernamePassword;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,10 +26,15 @@ public class SecurityService {
     public void validateAuthorization(String authorization, Feature feature) {
         UsernamePassword usernamePassword = getUsernamePassword(authorization);
         Long userId = Long.parseLong(usernamePassword.getUsername());
-        User user = userRepository.findById(userId).orElseThrow();
-        if (user == null) {
-            logger.error("Unkown user" + usernamePassword.getPassword());
-            throw new UnkownUserException();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UnkownUserException());
+        if (!user.doesPasswordMatch(usernamePassword.getPassword())) {
+            logger.error("Password does not match for user " + usernamePassword.getUsername());
+            throw new WrongPasswordException();
+        }
+
+        if(!user.canHaveAccessTo(feature)){
+            logger.error("User "+usernamePassword.getUsername()+" does not have access to "+feature);
+            throw new AccessDeniedException();
         }
     }
 
@@ -42,18 +45,5 @@ public class SecurityService {
         return new UsernamePassword(username, password);
     }
 }
-        /**
-        if (!user.doesPasswordMatch(usernamePassword.getPassword())) {
-            logger.error("Password does not match for user " + usernamePassword.getUsername());
-            throw new WrongPasswordException();
-        }
-
-        if(!user.canHaveAccessTo(feature)) {
-            logger.error("User " + usernamePassword.getUsername() + " does not have access to " + feature);
-            throw new AccessDeniedException();
-        }
-    }
 
 
-}
- */
